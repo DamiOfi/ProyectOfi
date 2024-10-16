@@ -6,12 +6,16 @@ const { filterClients } = require('./helpers');
 const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
 // Función para enviar mensaje de WhatsApp
-const sendMessageWhatsApp = (telefono, mensaje) => {
+/* const sendMessageWhatsApp = (telefono, mensaje) => {
     return client.messages.create({
         from: process.env.TWILIO_WHATSAPP_NUMBER, // Número de Twilio
         to: `whatsapp:${telefono}`, // Número del cliente
         body: mensaje, // El mensaje a enviar
     });
+}; */
+
+const sendMessageWhatsApp = (telefono, mensaje) => {
+    console.log("telefono, mensaje")
 };
 
 // Función para leer el archivo Excel y enviar mensajes
@@ -21,6 +25,8 @@ const sendMessagesToClients = async () => {
     // Filtrar asegurados que vencen hoy (Días a Vencer = 0) o en 3 días (Días a Vencer = 3)
     const aseguradosVencenHoy = asegurados.filter(asegurado => asegurado['Dias a Vencer'] === 0);
     const aseguradosPorVencer = asegurados.filter(asegurado => asegurado['Dias a Vencer'] === 3);
+    console.log(aseguradosPorVencer);
+    console.log(aseguradosVencenHoy);
 
     // Enviar mensajes a asegurados que vencen hoy
     for (const asegurado of aseguradosVencenHoy) {
