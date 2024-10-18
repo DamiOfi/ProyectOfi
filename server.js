@@ -14,7 +14,7 @@ app.post('/send-messages', async (req, res) => {
         res.status(500).send('Error enviando mensajes');
     }
 });
-
+/* 
 app.get('/send-messages', async (req, res) => {
     try {
         await sendMessagesToClients();
@@ -22,7 +22,7 @@ app.get('/send-messages', async (req, res) => {
     } catch (error) {
         res.status(500).send('Error enviando mensajes');
     }
-});
+}); */
 
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`);
