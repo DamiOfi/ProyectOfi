@@ -1,4 +1,5 @@
 const { filterClients } = require('../helpers/excelHelper');
+const { excelDateToJSDate2 } = require('../utils/dateUtils');
 
 // Función para remover la parte de la hora de una fecha
 const removeTimeFromDate = (date) => {
