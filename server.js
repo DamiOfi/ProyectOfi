@@ -2,6 +2,10 @@ require('dotenv').config(); // Carga las variables del .env
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
+const cors = require('cors');
+
+// Permitir solicitudes de cualquier origen
+app.use(cors());
 
 // Importar el enrutador
 const routes = require('./src/routers/index'); // Ajusta la ruta si es necesario
