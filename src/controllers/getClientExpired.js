@@ -8,12 +8,16 @@ const removeTimeFromDate = (date) => {
     return newDate;
 };
 
-// Función para convertir fechas de Excel a objetos Date
+// Función ajustada para convertir fechas de Excel a objetos Date en JavaScript
 const excelDateToJSDate = (excelDate) => {
-    return new Date((excelDate - 25569) * 86400 * 1000);
+    const date = new Date((excelDate - 25569) * 86400 * 1000);
+    
+    // Ajustar por discrepancia del sistema de fechas de Excel (resta de un día)
+    const adjustedDate = new Date(date.setDate(date.getDate() + 1));
+    return adjustedDate;
 };
 
-// Función para leer el archivo Excel y enviar mensajes (sin Twilio)
+// Función para leer el archivo Excel y enviar mensajes
 const getClientExpired = async (req, res) => {
     try {
         const asegurados = filterClients();
@@ -21,7 +25,7 @@ const getClientExpired = async (req, res) => {
 
         // Obtener la fecha de hoy y de 3 días después, sin la hora
         const today = removeTimeFromDate(new Date());
-        const threeDaysLater = removeTimeFromDate(new Date());
+        const threeDaysLater = new Date(today);
         threeDaysLater.setDate(today.getDate() + 3);  // Fecha de dentro de 3 días
 
         // Filtrar asegurados que vencen hoy y en 3 días usando la columna 'Fecha Vencimiento'
@@ -43,15 +47,15 @@ const getClientExpired = async (req, res) => {
 
         // Crear los mensajes de los que vencen hoy
         for (const asegurado of aseguradosVencenHoy) {
-            const fechaVencimiento = excelDateToJSDate(asegurado['Fecha Vencimiento']);  // Mantener la fecha original para el mensaje
-            const mensaje = `Hola ${asegurado.Nombre}, su seguro vence hoy (${fechaVencimiento.toLocaleDateString('es-ES')}). Por favor, renueve a tiempo.`; // Formatear fecha
+            const fechaVencimiento = excelDateToJSDate2(asegurado['Fecha Vencimiento']);  // Mantener la fecha original para el mensaje
+            const mensaje = `Hola ${asegurado.Nombre}, su seguro vence hoy (${fechaVencimiento}). Por favor, renueve a tiempo.`; // Formatear fecha
             mensajesAEnviar.push({ telefono: asegurado.Telefono, mensaje });
         }
 
         // Crear los mensajes de los que vencen en 3 días
         for (const asegurado of aseguradosPorVencer) {
-            const fechaVencimiento = excelDateToJSDate(asegurado['Fecha Vencimiento']);  // Mantener la fecha original para el mensaje
-            const mensaje = `Hola ${asegurado.Nombre}, su seguro vence en 3 días (${fechaVencimiento.toLocaleDateString('es-ES')}). No olvide renovarlo.`; // Formatear fecha
+            const fechaVencimiento = excelDateToJSDate2(asegurado['Fecha Vencimiento']);  // Mantener la fecha original para el mensaje
+            const mensaje = `Hola ${asegurado.Nombre}, su seguro vence en 3 días (${fechaVencimiento}). No olvide renovarlo.`; // Formatear fecha
             mensajesAEnviar.push({ telefono: asegurado.Telefono, mensaje });
         }
 
