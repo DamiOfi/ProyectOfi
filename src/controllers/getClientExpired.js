@@ -47,15 +47,24 @@ const getClientExpired = async (req, res) => {
 
         // Crear los mensajes de los que vencen hoy
         for (const asegurado of aseguradosVencenHoy) {
-            const fechaVencimiento = excelDateToJSDate2(asegurado['Fecha Vencimiento']);  // Mantener la fecha original para el mensaje
-            const mensaje = `Hola ${asegurado.Nombre}, su seguro vence hoy (${fechaVencimiento}). Por favor, renueve a tiempo.`; // Formatear fecha
+            const fechaVencimiento = excelDateToJSDate2(asegurado['Fecha Vencimiento']);
+            const patente = asegurado['Patente'];
+            const mensaje = `Estimado/a ${asegurado.Nombre}
+                            Le informamos que el seguro de su vehículo, con patente ${patente}, vence el día de hoy (${fechaVencimiento}).
+                            Para evitar cualquier inconveniente, le recordamos que puede realizar el pago mediante efectivo o transferencia
+                            Quedamos a su disposición para cualquier consulta.
+                            Recuerde que es un *mensaje automatico.*`;
             mensajesAEnviar.push({ telefono: asegurado.Telefono, mensaje });
         }
 
         // Crear los mensajes de los que vencen en 3 días
         for (const asegurado of aseguradosPorVencer) {
-            const fechaVencimiento = excelDateToJSDate2(asegurado['Fecha Vencimiento']);  // Mantener la fecha original para el mensaje
-            const mensaje = `Hola ${asegurado.Nombre}, su seguro vence en 3 días (${fechaVencimiento}). No olvide renovarlo.`; // Formatear fecha
+            const fechaVencimiento = excelDateToJSDate2(asegurado['Fecha Vencimiento']);
+            const patente = asegurado['Patente'];
+            const mensaje = `Hola ${asegurado.Nombre}
+                            Te recordamos que la cuota del seguro de tu vehículo con patente ${patente} está por vencer el (${fechaVencimiento}).
+                            Si tienes alguna duda o necesitas ayuda, no dudes en contactarnos. ¡Estamos aquí para ayudarte!
+                            Recuerde que es un *mensaje automatico.*`;
             mensajesAEnviar.push({ telefono: asegurado.Telefono, mensaje });
         }
 
