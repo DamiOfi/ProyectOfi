@@ -49,12 +49,7 @@ const getClientExpired = async (req, res) => {
         for (const asegurado of aseguradosVencenHoy) {
             ++idAux;
             const fechaVencimiento = excelDateToJSDate2(asegurado['Fecha Vencimiento']);
-            const patente = asegurado['Patente'];
-            const mensaje = `Estimado/a ${asegurado.Nombre}
-                            Le informamos que el seguro de su vehículo, con patente ${patente}, vence el día de hoy (${fechaVencimiento}).
-                            Para evitar cualquier inconveniente, le recordamos que puede realizar el pago mediante efectivo o transferencia
-                            Quedamos a su disposición para cualquier consulta.
-                            Recuerde que es un *mensaje automatico.*`;
+            const mensaje = `Estimado/a ${asegurado.Apellido} ${asegurado.Nombre}. Le informamos que el seguro de su vehículo, con patente ${asegurado.Patente}, vence el día de hoy (${fechaVencimiento}). Para evitar cualquier inconveniente, le recordamos que puede realizar el pago mediante efectivo o transferencia. Quedamos a su disposición para cualquier consulta. Recuerde que es un *mensaje automatico.*`;
             mensajesAEnviar.push({ telefono: asegurado.Telefono, mensaje: mensaje, id:idAux});
         }
 
@@ -62,11 +57,7 @@ const getClientExpired = async (req, res) => {
         for (const asegurado of aseguradosPorVencer) {
             ++idAux
             const fechaVencimiento = excelDateToJSDate2(asegurado['Fecha Vencimiento']);
-            const patente = asegurado['Patente'];
-            const mensaje = `Hola ${asegurado.Nombre}
-                            Te recordamos que la cuota del seguro de tu vehículo con patente ${patente} está por vencer el (${fechaVencimiento}).
-                            Si tienes alguna duda o necesitas ayuda, no dudes en contactarnos. ¡Estamos aquí para ayudarte!
-                            Recuerde que es un *mensaje automatico.*`;
+            const mensaje = `Hola ${asegurado.Apellido} ${asegurado.Nombre}. Te recordamos que la cuota del seguro de tu vehículo con patente ${asegurado.Patente} está por vencer el (${fechaVencimiento}). Si tienes alguna duda o necesitas ayuda, no dudes en contactarnos. ¡Estamos aquí para ayudarte!. Recuerde que es un *mensaje automatico.*`;
             mensajesAEnviar.push({ telefono: asegurado.Telefono, mensaje: mensaje, id:idAux });
         }
 
