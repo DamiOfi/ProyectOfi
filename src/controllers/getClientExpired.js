@@ -50,7 +50,7 @@ const getClientExpired = async (req, res) => {
             ++idAux;
             const fechaVencimiento = excelDateToJSDate2(asegurado['Fecha Vencimiento']);
             const mensaje = `Estimado/a ${asegurado.Apellido} ${asegurado.Nombre}. Le informamos que el seguro de su vehículo, con patente ${asegurado.Patente}, vence el día de hoy (${fechaVencimiento}). Para evitar cualquier inconveniente, le recordamos que puede realizar el pago mediante efectivo o transferencia. Quedamos a su disposición para cualquier consulta. Recuerde que es un *mensaje automatico.*`;
-            mensajesAEnviar.push({ telefono: asegurado.Telefono, mensaje: mensaje, id:idAux});
+            mensajesAEnviar.push({ name:asegurado.Nombre, surname:asegurado.Apellido, telefono: asegurado.Telefono, mensaje: mensaje, id:idAux, defeated:true});
         }
 
         // Crear los mensajes de los que vencen en 3 días
@@ -58,7 +58,7 @@ const getClientExpired = async (req, res) => {
             ++idAux
             const fechaVencimiento = excelDateToJSDate2(asegurado['Fecha Vencimiento']);
             const mensaje = `Hola ${asegurado.Apellido} ${asegurado.Nombre}. Te recordamos que la cuota del seguro de tu vehículo con patente ${asegurado.Patente} está por vencer el (${fechaVencimiento}). Si tienes alguna duda o necesitas ayuda, no dudes en contactarnos. ¡Estamos aquí para ayudarte!. Recuerde que es un *mensaje automatico.*`;
-            mensajesAEnviar.push({ telefono: asegurado.Telefono, mensaje: mensaje, id:idAux });
+            mensajesAEnviar.push({name:asegurado.Nombre, surname:asegurado.Apellido, telefono: asegurado.Telefono, mensaje: mensaje, id:idAux, defeated:false });
         }
 
         return res.status(200).json(mensajesAEnviar);
