@@ -8,7 +8,7 @@ const cors = require('cors');
 app.use(cors());
 
 // Importar el enrutador
-const routes = require('./src/routers/index'); // Ajusta la ruta si es necesario
+const routes = require('./routers/index'); // Ajusta la ruta si es necesario
 
 // Middleware para procesar datos JSON (opcional si necesitas más adelante)
 app.use(express.json());
