@@ -6,7 +6,7 @@ const { postClient } = require("../controllers/postClient.js");
 
 //GET
 const { getClientAll } = require('../controllers/getClientAll');
-/* const { getClientExpired } = require('../controllers/getClientExpired'); */
+const { getClientExpired } = require('../controllers/getClientExpired');
 
 //PUT
 const { putClientId } = require('../controllers/putClientId');
@@ -15,7 +15,7 @@ const { putClientId } = require('../controllers/putClientId');
 const { deleteClientId } = require('../controllers/deleteClientId');
 
 
-/* router.get('/clientes-vencidos', getClientExpired ); */
+router.get('/clientes-vencidos', getClientExpired );
 
 router.get('/clientes', getClientAll );
 

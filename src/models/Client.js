@@ -17,8 +17,7 @@ module.exports = (sequelize) => {
     },
     telefono: {
       type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
+      allowNull: true,
     },
     compania: {
       type: DataTypes.STRING,
@@ -52,7 +51,6 @@ module.exports = (sequelize) => {
       type: DataTypes.FLOAT,
       allowNull: true,
     },
-    // Nuevos campos
     precio_real: {
       type: DataTypes.FLOAT,
       allowNull: true,
