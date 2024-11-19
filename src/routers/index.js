@@ -1,13 +1,29 @@
 const express = require('express');
 const router = express.Router();
 
-// Importa el controlador
-const { getClientExpired } = require('../controllers/getClientExpired');
-const { postClient } = require("../controllers/postClient");
+//POST
+const { postClient } = require("../controllers/postClient.js");
 
-// Define la ruta GET que llama al controlador
-router.get('/clientes-vencidos', getClientExpired );
+//GET
+const { getClientAll } = require('../controllers/getClientAll');
+/* const { getClientExpired } = require('../controllers/getClientExpired'); */
 
-router.post('/clientes-vencidos', getClientExpired );
+//PUT
+const { putClientId } = require('../controllers/putClientId');
+
+//DELETE
+const { deleteClientId } = require('../controllers/deleteClientId');
+
+
+/* router.get('/clientes-vencidos', getClientExpired ); */
+
+router.get('/clientes', getClientAll );
+
+router.post('/clientes', postClient );
+
+router.put('/clientes/:id', putClientId );
+
+router.delete('/clientes/:id', deleteClientId);
 
 module.exports = router;
+

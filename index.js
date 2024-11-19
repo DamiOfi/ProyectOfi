@@ -1,10 +1,10 @@
-const { conn, Cliente } = require('./src/db'); // Importamos la conexión y el modelo Cliente
+const { conn } = require('./src/db');
+const server = require("./src/server");
+const PORT = 3001;
 
-// Sincronizar los modelos con la base de datos
-conn.sync({ force: true }) // Usa `force: true` solo en desarrollo si deseas borrar las tablas
-  .then(() => {
-    console.log('Tablas creadas o actualizadas correctamente');
+
+conn.sync({ force: true }).then(() => {
+  server.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}`);
   })
-  .catch((error) => {
-    console.error('Error al sincronizar las tablas:', error);
-  });
+  }).catch(error => console.error(error))
