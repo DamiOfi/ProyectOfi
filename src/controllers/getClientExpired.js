@@ -1,65 +1,74 @@
 const { Cliente } = require('../db');
+const { Op } = require('sequelize');
 
-// Función para remover la parte de la hora de una fecha
-const removeTimeFromDate = (date) => {
+// Función para obtener el inicio del día
+const startOfDay = (date) => {
   const newDate = new Date(date);
-  newDate.setHours(0, 0, 0, 0); // Establecer la hora en 00:00:00 para comparar solo la fecha
+  newDate.setUTCHours(0, 0, 0, 0); // UTC para evitar problemas de zonas horarias
+  return newDate;
+};
+
+// Función para obtener el final del día
+const endOfDay = (date) => {
+  const newDate = new Date(date);
+  newDate.setUTCHours(23, 59, 59, 999); // UTC para evitar problemas de zonas horarias
+  return newDate;
+};
+
+// Función para sumar un día a una fecha
+const addOneDay = (date) => {
+  const newDate = new Date(date);
+  newDate.setDate(newDate.getDate() + 1);
   return newDate;
 };
 
 // Controlador para obtener clientes que vencen hoy y en tres días
 const getClientExpired = async (req, res) => {
   try {
-    // Obtener las fechas necesarias
-    const today = removeTimeFromDate(new Date());
-    const threeDaysLater = new Date(today);
-    threeDaysLater.setDate(today.getDate() + 3);
+    // Fechas de inicio y fin para hoy
+    const todayStart = startOfDay(new Date());
+    const todayEnd = endOfDay(new Date());
 
-    // Consultar en la base de datos
-    const clients = await Cliente.findAll();
+    // Fechas de inicio y fin para dentro de tres días
+    const threeDaysLaterStart = startOfDay(new Date());
+    threeDaysLaterStart.setDate(threeDaysLaterStart.getDate() + 3);
+    const threeDaysLaterEnd = endOfDay(threeDaysLaterStart);
 
-    // Filtrar los clientes que vencen hoy
-    const clientsDueToday = clients.filter(client => {
-      const dueDate = removeTimeFromDate(client.fecha_vencimiento);
-      return dueDate.getTime() === today.getTime();
+    // Consultar clientes que vencen hoy o en tres días
+    const clients = await Cliente.findAll({
+      where: {
+        fecha_vencimiento: {
+          [Op.or]: [
+            { [Op.between]: [todayStart, todayEnd] }, // Hoy
+            { [Op.between]: [threeDaysLaterStart, threeDaysLaterEnd] }, // Dentro de tres días
+          ],
+        },
+      },
     });
 
-    // Filtrar los clientes que vencen en tres días
-    const clientsDueInThreeDays = clients.filter(client => {
-      const dueDate = removeTimeFromDate(client.fecha_vencimiento);
-      return dueDate.getTime() === threeDaysLater.getTime();
-    });
+    // Crear los mensajes
+    const messages = clients.map(client => {
+      // Determinar si el cliente vence hoy
+      const isDueToday = client.fecha_vencimiento >= todayStart && client.fecha_vencimiento <= todayEnd;
 
-    // Crear los mensajes para los clientes que vencen hoy
-    const messages = clientsDueToday.map(client => ({
-      id: client.id,
-      name: client.nombre,
-      surname: client.apellido,
-      telefono: client.telefono,
-      mensaje: `Estimado/a ${client.apellido} ${client.nombre}. Le informamos que el seguro de su vehículo, con patente ${client.patente}, vence el día de hoy (${client.fecha_vencimiento.toLocaleDateString()}). Para evitar cualquier inconveniente, le recordamos que puede realizar el pago mediante efectivo o transferencia. Recuerde que este es un *mensaje automático.*`,
-      defeated: true,
-      company: client.compania,
-      patent: client.patente,
-      share: client.cuota,
-      coverage: client.cobertura,
-      lastPayment: client.ultimo_pago,
-    }));
+      // Formatear fecha ajustada (+1 día)
+      const formattedDate = addOneDay(client.fecha_vencimiento).toLocaleDateString();
 
-    // Crear los mensajes para los clientes que vencen en tres días
-    clientsDueInThreeDays.forEach(client => {
-      messages.push({
+      return {
         id: client.id,
-        name: client.nombre,
-        surname: client.apellido,
+        nombre: client.nombre,
+        apellido: client.apellido,
         telefono: client.telefono,
-        mensaje: `Hola ${client.apellido} ${client.nombre}. Te recordamos que la cuota del seguro de tu vehículo con patente ${client.patente} está por vencer el (${client.fecha_vencimiento.toLocaleDateString()}). Si tienes alguna duda o necesitas ayuda, no dudes en contactarnos. ¡Estamos aquí para ayudarte! Recuerde que este es un *mensaje automático.*`,
-        defeated: false,
-        company: client.compania,
-        patent: client.patente,
-        share: client.cuota,
-        coverage: client.cobertura,
-        lastPayment: client.ultimo_pago,
-      });
+        mensaje: isDueToday
+          ? `Estimado/a ${client.apellido} ${client.nombre}. Le informamos que el seguro de su vehículo, con patente ${client.patente}, vence el día de hoy (${formattedDate}). Para evitar cualquier inconveniente, le recordamos que puede realizar el pago mediante efectivo o transferencia. Recuerde que este es un *mensaje automático.*`
+          : `Hola ${client.apellido} ${client.nombre}. Te recordamos que la cuota del seguro de tu vehículo con patente ${client.patente} está por vencer el (${formattedDate}). Si tienes alguna duda o necesitas ayuda, no dudes en contactarnos. ¡Estamos aquí para ayudarte! Recuerde que este es un *mensaje automático.*`,
+        vencido: isDueToday,
+        compania: client.compania,
+        patente: client.patente,
+        cuota: client.cuota,
+        cobertura: client.cobertura,
+        ultimo_pago: client.ultimo_pago,
+      };
     });
 
     return res.status(200).json(messages);
