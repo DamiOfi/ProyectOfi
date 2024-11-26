@@ -3,6 +3,7 @@ const router = express.Router();
 
 //POST
 const { postClient } = require("../controllers/postClient.js");
+const { postCar } = require("../controllers/postCar.js");
 
 //GET
 const { getClientAll } = require('../controllers/getClientAll');
@@ -20,6 +21,7 @@ router.get('/clientes-vencidos', getClientExpired );
 router.get('/clientes', getClientAll );
 
 router.post('/clientes', postClient );
+router.post('/vehiculo', postCar );
 
 router.put('/clientes/:id', putClientId );
 

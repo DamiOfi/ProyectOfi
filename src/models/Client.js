@@ -1,11 +1,20 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  const Cliente = sequelize.define('Cliente', {
+  const Client = sequelize.define('Client', {
     id: {
       type: DataTypes.INTEGER,
-      primaryKey: true,
       autoIncrement: true,
+      primaryKey: true,
+    },
+    dni: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    telefono: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     nombre: {
       type: DataTypes.STRING,
@@ -15,71 +24,22 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    telefono: {
+    localidad: {
       type: DataTypes.STRING,
-      allowNull: true,
-    },
-    compania: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    patente: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    cuota: {
-      type: DataTypes.FLOAT,
       allowNull: false,
     },
-    cobertura: {
+    direccion: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
-    ultimo_pago: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-    fecha_vencimiento: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-    primer_pago: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-    precio_anterior: {
-      type: DataTypes.FLOAT,
-      allowNull: true,
-    },
-    precio_real: {
-      type: DataTypes.FLOAT,
-      allowNull: true,
-    },
-    precio_agencia: {
-      type: DataTypes.FLOAT,
-      allowNull: true,
-    },
-    precio_total: {
-      type: DataTypes.FLOAT,
-      allowNull: true,
-    },
-    enviar_mensaje: {
+    enviarMsj: {
       type: DataTypes.BOOLEAN,
-      allowNull: false, // No permite valores nulos
-      defaultValue: true, // El valor por defecto es true
+      defaultValue: true,
     },
   }, {
-    timestamps: true,
-    tableName: 'clientes',
+    tableName: 'clients',
+    timestamps: false,
   });
-
-  // Métodos adicionales para el modelo
-  Cliente.prototype.calcularPrecioTotal = function () {
-    if (this.precio_real && this.precio_agencia) {
-      return this.precio_real + this.precio_agencia;
-    }
-    return 0;
-  };
-
-  return Cliente;
-};
+  
+  return Client;
+}

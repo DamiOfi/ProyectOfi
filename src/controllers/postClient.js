@@ -1,42 +1,32 @@
-const { Cliente } = require('../db');
+const { Client } = require('../db');
 
 // Controlador para crear un nuevo cliente
 const postClient = async (req, res) => {
   const {
-    nombre,
-    apellido,
-    telefono,
-    cuota,
-    precio_real,
-    precio_agencia,
-    enviar_mensaje,
-    patente,
-    fecha_vencimiento,
-    ultimo_pago,
-    compania,
-    cobertura,
+    dni,            // DNI del cliente
+    telefono,       // Teléfono del cliente
+    nombre,         // Nombre del cliente
+    apellido,       // Apellido del cliente
+    localidad,      // Localidad del cliente
+    direccion,      // Dirección del cliente
+    enviarMsj = true, // Valor predeterminado para enviarMsj
   } = req.body;
 
   try {
-    // Crear un nuevo cliente con los campos adicionales
-    const cliente = await Cliente.create({
+    // Crear el cliente
+    const client = await Client.create({
+      dni,
+      telefono,
       nombre,
       apellido,
-      telefono,
-      cuota,
-      precio_real,
-      precio_agencia,
-      enviar_mensaje,
-      patente,
-      fecha_vencimiento,
-      ultimo_pago,
-      compania,
-      cobertura,
+      localidad,
+      direccion,
+      enviarMsj,
     });
 
     res.status(201).json({
       message: 'Cliente creado con éxito',
-      cliente: cliente.toJSON(),
+      cliente: client.toJSON(),
     });
   } catch (error) {
     console.error('Error al crear cliente:', error);
@@ -44,5 +34,4 @@ const postClient = async (req, res) => {
   }
 };
 
-// Exportamos el controlador
 module.exports = { postClient };
