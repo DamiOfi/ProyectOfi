@@ -6,26 +6,33 @@ const { postClient } = require("../controllers/postClient.js");
 const { postCar } = require("../controllers/postCar.js");
 
 //GET
-const { getClientAll } = require('../controllers/getClientAll');
-const { getClientExpired } = require('../controllers/getClientExpired');
+const { getClientAll } = require('../controllers/getClientAll.js');
+const { getClientExpired } = require('../controllers/getClientExpired.js');
 
 //PUT
-const { putClientId } = require('../controllers/putClientId');
+const { putClient } = require('../controllers/putClient.js');
+const { putCar } = require('../controllers/putCar.js');
 
 //DELETE
-const { deleteClientId } = require('../controllers/deleteClientId');
+const { deleteClient } = require('../controllers/deleteClient.js');
+const { deleteCar } = require('../controllers/deleteCar.js');
 
 
+//GET
 router.get('/clientes-vencidos', getClientExpired );
-
 router.get('/clientes', getClientAll );
 
+//POST
 router.post('/clientes', postClient );
 router.post('/vehiculo', postCar );
 
-router.put('/clientes/:id', putClientId );
+//PUT
+router.put('/clientes/:clientId', putClient );
+router.put('/vehiculo/:carId', putCar );
 
-router.delete('/clientes/:id', deleteClientId);
+//DELETE
+router.delete('/clientes/:clientId', deleteClient);
+router.delete('/vehiculo/:carId', deleteCar);
 
 module.exports = router;
 

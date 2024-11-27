@@ -10,7 +10,6 @@ module.exports = (sequelize) => {
     patente: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
     },
     client_id: {
       type: DataTypes.INTEGER,
