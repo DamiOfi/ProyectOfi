@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize } = require('sequelize'); 
 const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
@@ -31,16 +31,16 @@ let capsEntries = entries.map(entry => [entry[0][0].toUpperCase() + entry[0].sli
 sequelize.models = Object.fromEntries(capsEntries);
 
 // Definir relaciones después de cargar todos los modelos
-const { Client, Car } = sequelize.models;
+const { Client, Vehicle } = sequelize.models; // Cambié "Car" por "Vehicle"
 
-Client.hasMany(Car, {
+Client.hasMany(Vehicle, { // Relación entre Cliente y Vehicle
   foreignKey: 'client_id',
   sourceKey: 'id',
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
 });
 
-Car.belongsTo(Client, {
+Vehicle.belongsTo(Client, { // Relación inversa: Vehicle pertenece a Client
   foreignKey: 'client_id',
   targetKey: 'id',
 });

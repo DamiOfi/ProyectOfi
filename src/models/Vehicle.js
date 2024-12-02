@@ -1,35 +1,27 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  const Car = sequelize.define('Car', {
+  const Vehicle = sequelize.define('Vehicle', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    patente: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     client_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    precio_agencia: {
-      type: DataTypes.FLOAT,
+    tipo: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    patente: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
     compañia: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-    modelo: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    ultimo_pago: {
-      type: DataTypes.DATE,
-      allowNull: true,
     },
     cuota: {
       type: DataTypes.FLOAT,
@@ -39,16 +31,8 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    año: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    marca: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    local: {
-      type: DataTypes.STRING,
+    ultimo_pago: {
+      type: DataTypes.DATE,
       allowNull: true,
     },
     fecha_vencimiento: {
@@ -59,14 +43,34 @@ module.exports = (sequelize) => {
       type: DataTypes.DATE,
       allowNull: true,
     },
+    marca: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    modelo: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    año: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     precio_real: {
       type: DataTypes.FLOAT,
       allowNull: false,
     },
+    precio_agencia: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+    },
+    local: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   }, {
-    tableName: 'cars',
+    tableName: 'vehicles',
     timestamps: false,
   });
 
-  return Car;
+  return Vehicle;
 };

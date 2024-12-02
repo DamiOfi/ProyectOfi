@@ -1,4 +1,4 @@
-const { Client, Car } = require('../db');
+const { Client, Vehicle } = require('../db'); // Asegúrate de que la ruta sea correcta
 
 // Controlador para eliminar un cliente y todos sus vehículos
 const deleteClient = async (req, res) => {
@@ -13,7 +13,7 @@ const deleteClient = async (req, res) => {
     }
 
     // Eliminar los vehículos relacionados
-    await Car.destroy({ where: { client_id: clientId } });
+    await Vehicle.destroy({ where: { client_id: clientId } });
 
     // Eliminar el cliente
     await client.destroy();

@@ -1,38 +1,36 @@
 const express = require('express');
 const router = express.Router();
 
-//POST
+// POST
 const { postClient } = require("../controllers/postClient.js");
-const { postCar } = require("../controllers/postCar.js");
+const { postVehicle } = require("../controllers/postVehicle.js"); // Cambié "postCar" por "postVehicle"
 
-//GET
+// GET
 const { getClientAll } = require('../controllers/getClientAll.js');
 const { getClientExpired } = require('../controllers/getClientExpired.js');
 
-//PUT
+// PUT
 const { putClient } = require('../controllers/putClient.js');
-const { putCar } = require('../controllers/putCar.js');
+const { putVehicle } = require('../controllers/putVehicle.js'); // Cambié "putCar" por "putVehicle"
 
-//DELETE
+// DELETE
 const { deleteClient } = require('../controllers/deleteClient.js');
-const { deleteCar } = require('../controllers/deleteCar.js');
+const { deleteVehicle } = require('../controllers/deleteVehicle.js'); // Cambié "deleteCar" por "deleteVehicle"
 
+// GET
+router.get('/clientes-vencidos', getClientExpired);
+router.get('/clientes', getClientAll);
 
-//GET
-router.get('/clientes-vencidos', getClientExpired );
-router.get('/clientes', getClientAll );
+// POST
+router.post('/clientes', postClient);
+router.post('/vehiculo', postVehicle); // Cambié "postCar" por "postVehicle"
 
-//POST
-router.post('/clientes', postClient );
-router.post('/vehiculo', postCar );
+// PUT
+router.put('/clientes/:clientId', putClient);
+router.put('/vehiculo/:vehicleId', putVehicle); // Cambié ":carId" por ":vehicleId"
 
-//PUT
-router.put('/clientes/:clientId', putClient );
-router.put('/vehiculo/:carId', putCar );
-
-//DELETE
+// DELETE
 router.delete('/clientes/:clientId', deleteClient);
-router.delete('/vehiculo/:carId', deleteCar);
+router.delete('/vehiculo/:vehicleId', deleteVehicle); // Cambié ":carId" por ":vehicleId"
 
 module.exports = router;
-

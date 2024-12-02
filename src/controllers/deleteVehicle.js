@@ -1,19 +1,19 @@
-const { Car } = require('../db');
+const { Vehicle } = require('../db'); // Asegúrate de que la ruta sea correcta
 
 // Controlador para eliminar un vehículo específico
-const deleteCar = async (req, res) => {
-  const { carId } = req.params; // ID del vehículo desde los parámetros
+const deleteVehicle = async (req, res) => {
+  const { vehicleId } = req.params; // ID del vehículo desde los parámetros
 
   try {
     // Verificar si el vehículo existe
-    const car = await Car.findByPk(carId);
+    const vehicle = await Vehicle.findByPk(vehicleId);
 
-    if (!car) {
+    if (!vehicle) {
       return res.status(404).json({ error: 'Vehículo no encontrado' });
     }
 
     // Eliminar el vehículo
-    await car.destroy();
+    await vehicle.destroy();
 
     res.status(200).json({ message: 'Vehículo eliminado con éxito' });
   } catch (error) {
@@ -22,4 +22,4 @@ const deleteCar = async (req, res) => {
   }
 };
 
-module.exports = { deleteCar };
+module.exports = { deleteVehicle };

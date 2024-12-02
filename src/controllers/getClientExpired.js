@@ -1,4 +1,4 @@
-const { Client, Car } = require('../db');
+const { Client, Vehicle } = require('../db'); // Asegúrate de que la ruta sea correcta
 const { Op } = require('sequelize');
 const { dateToJSDate } = require('../utils/dateUtils'); // Importamos la función
 
@@ -32,8 +32,8 @@ const getClientExpired = async (req, res) => {
     const clients = await Client.findAll({
       include: [
         {
-          model: Car,
-          as: 'Cars',
+          model: Vehicle, // Relación con el modelo de vehículos
+          as: 'Vehicles',
           where: {
             fecha_vencimiento: {
               [Op.or]: [
@@ -49,11 +49,11 @@ const getClientExpired = async (req, res) => {
 
     // Crear los mensajes para cada cliente y sus vehículos
     const messages = clients.map((client) => {
-      return client.Cars.map((car) => {
+      return client.Vehicles.map((vehicle) => {
         // Determinar si el vehículo vence hoy
         const isDueToday =
-          car.fecha_vencimiento >= todayStart &&
-          car.fecha_vencimiento <= todayEnd;
+          vehicle.fecha_vencimiento >= todayStart &&
+          vehicle.fecha_vencimiento <= todayEnd;
 
         const sumarUnDia = (fechaCadena) => {
           return new Date(new Date(fechaCadena).setDate(new Date(fechaCadena).getDate() + 1));
@@ -65,14 +65,14 @@ const getClientExpired = async (req, res) => {
           apellido: client.apellido,
           telefono: client.telefono,
           mensaje: isDueToday
-            ? `Estimado/a ${client.apellido} ${client.nombre}. Le informamos que el seguro de su vehículo, con patente ${car.patente}, vence el día de hoy (${ dateToJSDate(sumarUnDia(car.fecha_vencimiento))}). Para evitar cualquier inconveniente, le recordamos que puede realizar el pago mediante efectivo o transferencia. Recuerde que este es un *mensaje automático.*`
-            : `Hola ${client.apellido} ${client.nombre}. Te recordamos que la cuota del seguro de tu vehículo con patente ${car.patente} está por vencer el (${dateToJSDate(car.fecha_vencimiento)}). Si tienes alguna duda o necesitas ayuda, no dudes en contactarnos. ¡Estamos aquí para ayudarte! Recuerde que este es un *mensaje automático.*`,
+            ? `Estimado/a ${client.apellido} ${client.nombre}. Le informamos que el seguro de su vehículo, con patente ${vehicle.patente}, vence el día de hoy (${ dateToJSDate(sumarUnDia(vehicle.fecha_vencimiento))}). Para evitar cualquier inconveniente, le recordamos que puede realizar el pago mediante efectivo o transferencia. Recuerde que este es un *mensaje automático.*`
+            : `Hola ${client.apellido} ${client.nombre}. Te recordamos que la cuota del seguro de tu vehículo con patente ${vehicle.patente} está por vencer el (${dateToJSDate(vehicle.fecha_vencimiento)}). Si tienes alguna duda o necesitas ayuda, no dudes en contactarnos. ¡Estamos aquí para ayudarte! Recuerde que este es un *mensaje automático.*`,
           vencido_hoy: isDueToday,
-          compania: car.compañia,
-          patente: car.patente,
-          cuota: car.cuota,
-          cobertura: car.cobertura,
-          ultimo_pago: car.ultimo_pago,
+          compania: vehicle.compañia,
+          patente: vehicle.patente,
+          cuota: vehicle.cuota,
+          cobertura: vehicle.cobertura,
+          ultimo_pago: vehicle.ultimo_pago,
         };
       });
     }).flat(); // Aplanar el arreglo de mensajes

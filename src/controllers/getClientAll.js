@@ -1,4 +1,4 @@
-const { Client, Car } = require('../db');
+const { Client, Vehicle } = require('../db'); // Asegúrate de que la ruta sea correcta
 
 // Controlador para obtener todos los clientes junto con sus vehículos
 const getClientAll = async (req, res) => {
@@ -7,9 +7,10 @@ const getClientAll = async (req, res) => {
     const clients = await Client.findAll({
       include: [
         {
-          model: Car, // Relación con el modelo de vehículos
+          model: Vehicle, // Relación con el modelo de vehículos
           attributes: [
             'id', 
+            'tipo', 
             'patente', 
             'precio_agencia', 
             'compañia', 
