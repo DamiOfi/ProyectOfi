@@ -1,4 +1,4 @@
-const { Vehicle } = require('../db'); // Asegúrate de que la ruta sea correcta
+const { Vehicle } = require('../db');
 
 // Controlador para actualizar un vehículo existente
 const putVehicle = async (req, res) => {

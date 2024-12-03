@@ -1,6 +1,6 @@
-const { Client, Vehicle } = require('../db'); // Asegúrate de que la ruta sea correcta
+const { Client, Vehicle } = require('../db'); 
 const { Op } = require('sequelize');
-const { dateToJSDate } = require('../utils/dateUtils'); // Importamos la función
+const { dateToJSDate } = require('../utils/dateUtils');
 
 // Función para obtener el inicio del día
 const startOfDay = (date) => {

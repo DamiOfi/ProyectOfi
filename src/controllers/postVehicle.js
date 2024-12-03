@@ -1,4 +1,4 @@
-const { Client, Vehicle } = require('../db'); // Asegúrate de que la ruta sea correcta
+const { Client, Vehicle } = require('../db');
 
 // Controlador para agregar un vehículo a un cliente existente
 const postVehicle = async (req, res) => {

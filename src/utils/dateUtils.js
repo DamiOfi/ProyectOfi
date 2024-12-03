@@ -5,8 +5,8 @@ const monthNames = [
   
   // Función para convertir la fecha a `dd de mes del año`
   const dateToJSDate = (date) => {
-    const jsDate = new Date(date); // Asegúrate de que sea un objeto Date
-    const day = jsDate.getDate().toString().padStart(2, '0'); // Asegúrate de formatear correctamente
+    const jsDate = new Date(date); 
+    const day = jsDate.getDate().toString().padStart(2, '0');
     const month = monthNames[jsDate.getMonth()];
     const year = jsDate.getFullYear();
     return `${day} de ${month} del ${year}`;

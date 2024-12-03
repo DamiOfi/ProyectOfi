@@ -3,13 +3,13 @@ const { Client } = require('../db');
 // Controlador para crear un nuevo cliente
 const postClient = async (req, res) => {
   const {
-    dni,            // DNI del cliente
-    telefono,       // Teléfono del cliente
-    nombre,         // Nombre del cliente
-    apellido,       // Apellido del cliente
-    localidad,      // Localidad del cliente
-    direccion,      // Dirección del cliente
-    enviarMsj = true, // Valor predeterminado para enviarMsj
+    dni,            
+    telefono,       
+    nombre,         
+    apellido,       
+    localidad,      
+    direccion,      
+    enviarMsj = true, 
   } = req.body;
 
   try {

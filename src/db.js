@@ -31,16 +31,16 @@ let capsEntries = entries.map(entry => [entry[0][0].toUpperCase() + entry[0].sli
 sequelize.models = Object.fromEntries(capsEntries);
 
 // Definir relaciones después de cargar todos los modelos
-const { Client, Vehicle } = sequelize.models; // Cambié "Car" por "Vehicle"
+const { Client, Vehicle } = sequelize.models;
 
-Client.hasMany(Vehicle, { // Relación entre Cliente y Vehicle
+Client.hasMany(Vehicle, { 
   foreignKey: 'client_id',
   sourceKey: 'id',
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
 });
 
-Vehicle.belongsTo(Client, { // Relación inversa: Vehicle pertenece a Client
+Vehicle.belongsTo(Client, { 
   foreignKey: 'client_id',
   targetKey: 'id',
 });
