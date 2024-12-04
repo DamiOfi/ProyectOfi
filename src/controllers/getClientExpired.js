@@ -55,9 +55,11 @@ const getClientExpired = async (req, res) => {
           vehicle.fecha_vencimiento >= todayStart &&
           vehicle.fecha_vencimiento <= todayEnd;
 
+        /* 
+        //metodo para sumar un dia en la fecha de vencimiento
         const sumarUnDia = (fechaCadena) => {
           return new Date(new Date(fechaCadena).setDate(new Date(fechaCadena).getDate() + 1));
-        }
+        } */
 
         return {
           id_cliente: client.id,
@@ -65,7 +67,7 @@ const getClientExpired = async (req, res) => {
           apellido: client.apellido,
           telefono: client.telefono,
           mensaje: isDueToday
-            ? `Estimado/a ${client.apellido} ${client.nombre}. Le informamos que el seguro de su vehículo, con patente ${vehicle.patente}, vence el día de hoy (${ dateToJSDate(sumarUnDia(vehicle.fecha_vencimiento))}). Para evitar cualquier inconveniente, le recordamos que puede realizar el pago mediante efectivo o transferencia. Recuerde que este es un *mensaje automático.*`
+            ? `Estimado/a ${client.apellido} ${client.nombre}. Le informamos que el seguro de su vehículo, con patente ${vehicle.patente}, vence el día de hoy (${dateToJSDate(vehicle.fecha_vencimiento)}). Para evitar cualquier inconveniente, le recordamos que puede realizar el pago mediante efectivo o transferencia. Recuerde que este es un *mensaje automático.*`
             : `Hola ${client.apellido} ${client.nombre}. Te recordamos que la cuota del seguro de tu vehículo con patente ${vehicle.patente} está por vencer el (${dateToJSDate(vehicle.fecha_vencimiento)}). Si tienes alguna duda o necesitas ayuda, no dudes en contactarnos. ¡Estamos aquí para ayudarte! Recuerde que este es un *mensaje automático.*`,
           vencido_hoy: isDueToday,
           compania: vehicle.compañia,
