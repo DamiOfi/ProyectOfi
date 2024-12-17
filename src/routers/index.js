@@ -8,6 +8,7 @@ const { postVehicle } = require("../controllers/postVehicle.js");
 // GET
 const { getClientAll } = require('../controllers/getClientAll.js');
 const { getClientExpired } = require('../controllers/getClientExpired.js');
+const { getClientById } = require('../controllers/getClientById.js');
 
 // PUT
 const { putClient } = require('../controllers/putClient.js');
@@ -20,6 +21,7 @@ const { deleteVehicle } = require('../controllers/deleteVehicle.js');
 // GET
 router.get('/clientes-vencidos', getClientExpired);
 router.get('/clientes', getClientAll);
+router.get('/clientes/:id', getClientById);
 
 // POST
 router.post('/clientes', postClient);
