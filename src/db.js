@@ -4,12 +4,25 @@ const path = require('path');
 require('dotenv').config();
 
 // Credenciales de la base de datos
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME } = process.env;
+const { NODE_ENV, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME, DB_USER_PROD, DB_PASSWORD_PROD, DB_HOST_PROD, DB_PORT_PROD, DB_NAME_PROD } = process.env;
 
-const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`, {
-  logging: false,
-  native: false,
-});
+const isProduction = NODE_ENV === 'production';
+
+const sequelize = new Sequelize(
+  `postgresql://postgres:fXuAgEHqzpeUedpvtXtJygpyEHGlaZnQ@junction.proxy.rlwy.net:48088/railway`,
+  {
+    logging: false,
+    native: false,
+    dialectOptions: isProduction
+      ? {
+          ssl: {
+            require: true,
+            rejectUnauthorized: false,
+          },
+        }
+      : {},
+  }
+);
 
 const basename = path.basename(__filename);
 
