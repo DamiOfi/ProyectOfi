@@ -6,21 +6,25 @@ require('dotenv').config();
 // Credenciales de la base de datos
 const { NODE_ENV, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME, DB_USER_PROD, DB_PASSWORD_PROD, DB_HOST_PROD, DB_PORT_PROD, DB_NAME_PROD } = process.env;
 
-const isProduction = NODE_ENV === 'production';
+/* 
+//BASE DE DATOS LOCAL
+const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`, {
+  logging: false,
+  native: false,
+}); */
 
+//BASE DE DATOS EN HEROKU
 const sequelize = new Sequelize(
-  `postgresql://postgres:fXuAgEHqzpeUedpvtXtJygpyEHGlaZnQ@junction.proxy.rlwy.net:48088/railway`,
+  `postgresql://${DB_USER_PROD}:${DB_PASSWORD_PROD}@${DB_HOST_PROD}:${DB_PORT_PROD}/${DB_NAME_PROD}`,
   {
     logging: false,
     native: false,
-    dialectOptions: isProduction
-      ? {
+    dialectOptions: {
           ssl: {
             require: true,
             rejectUnauthorized: false,
           },
         }
-      : {},
   }
 );
 
