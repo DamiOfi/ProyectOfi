@@ -15,7 +15,7 @@ process.on('uncaughtException', (error) => {
 // base de datos en heroku
 conn.sync({ force: false }) // `force: true` en desarrollo, `false` en producción
   .then(() => {
-    console.log(`Base de datos sincronizada (force: produccion)`);
+    console.log(`Base de datos sincronizada (force: false)`); // force: false para no borrar la base de datos
     server.listen(PORT, () => {
       console.log(`Servidor escuchando en puerto ${PORT} (entorno: producción)`);
     });
