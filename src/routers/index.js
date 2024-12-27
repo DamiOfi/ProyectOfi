@@ -23,7 +23,7 @@ router.get('/clientes-vencidos', getClientExpired);
 router.get('/clientes', getClientAll);
 router.get('/clientes/:id', getClientById);
 router.get('/', (req, res) => {
-  res.statusCode(200).send( {msg: "Bienvenidos a la API de Asegurados" });
+  res.status(200).send( {msg: "Bienvenidos a la API de Asegurados" });
 });
 
 // POST

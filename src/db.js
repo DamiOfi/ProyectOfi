@@ -11,9 +11,10 @@ const { NODE_ENV, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME, DB_USER_PROD,
 const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`, {
   logging: false,
   native: false,
-}); */
+});
+ */
 
-//BASE DE DATOS EN HEROKU
+//BASE DE DATOS EN RAILWWAY
 const sequelize = new Sequelize(
   `postgresql://${DB_USER_PROD}:${DB_PASSWORD_PROD}@${DB_HOST_PROD}:${DB_PORT_PROD}/${DB_NAME_PROD}`,
   {
