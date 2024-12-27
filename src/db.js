@@ -16,7 +16,7 @@ const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}
 
 //BASE DE DATOS EN RAILWWAY
 const sequelize = new Sequelize(
-  `postgresql://${DB_USER_PROD}:${DB_PASSWORD_PROD}@${DB_HOST_PROD}:${DB_PORT_PROD}/${DB_NAME_PROD}`,
+  `postgresql://postgres:fXuAgEHqzpeUedpvtXtJygpyEHGlaZnQ@junction.proxy.rlwy.net:48088/railway`,
   {
     logging: false,
     native: false,
