@@ -1,6 +1,6 @@
 const { conn } = require('./src/db'); // Conexión a la base de datos
 const server = require('./src/server'); // Servidor Express
-const PORT = process.env.PORT || 3001; // Puerto configurable desde .env o default: 3001
+const PORT = 48088; // Puerto configurable desde .env o default: 3001
 
 // Manejo de errores global
 process.on('unhandledRejection', (reason, promise) => {
